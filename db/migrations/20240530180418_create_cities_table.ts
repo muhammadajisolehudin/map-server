@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         table.float('lat').notNullable(); 
         table.float('lon').notNullable(); 
         table.boolean('isActive').notNullable().defaultTo(true);
-        table.string('updated_by', 255);
+        table.boolean('isInIndonesia').notNullable().defaultTo(true);
         table.timestamps(true, true); 
     });
 }

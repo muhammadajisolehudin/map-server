@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import * as cityService from '../../../service/cityService';
+import * as seaService from '../../../service/seaService';
 
-const listCities = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    console.log("masuk city get list")
+const listSeas = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    console.log("masuk sini lahh")
   try {
-    const result = await cityService.listCities(); 
+    const result = await seaService.listSeas();  // Ganti ke listSeas()
     if (result.status === 200) {
       res.status(200).json({
         status: 'OK',
-        data: { cities: result.data?.data }, 
+        data: { seas: result.data?.data },
         meta: { total: result.data?.count },
       });
     } else {
@@ -25,28 +25,12 @@ const listCities = async (req: Request, res: Response, next: NextFunction): Prom
   }
 };
 
-const showCity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const showSea = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const result = await cityService.getCityById(req.params.id);
-    res.status(result.status).json({ 
-      status: result.status === 200 ? 'OK' : 'FAIL',
-      data: result.status === 200 ? result.city : null,
-      message: result.message
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'ERROR',
-      message: (err as Error).message,
-    });
-  }
-};
-
-const createCity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const result = await cityService.createCity(req.body);
+    const result = await seaService.getSeaById(req.params.id);  // Ganti ke getSeaById()
     res.status(result.status).json({
-      status: 'OK',
-      data: result.city,
+      status: result.status === 200 ? 'OK' : 'FAIL',
+      data: result.status === 200 ? result.sea : null,
       message: result.message,
     });
   } catch (err) {
@@ -57,13 +41,13 @@ const createCity = async (req: Request, res: Response, next: NextFunction): Prom
   }
 };
 
-const updateCity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const createSea = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const result: { status: number; message: string; data?: any } = await cityService.updateCity(req.params.id, req.body);
-    res.status(result.status).json({ 
-      status: result.status === 200 ? 'OK' : 'FAIL',
-      data: result.status === 200 ? result.data : null,
-      message: result.message
+    const result = await seaService.createSea(req.body);  // Ganti ke createSea()
+    res.status(result.status).json({
+      status: 'OK',
+      data: result.sea,
+      message: result.message,
     });
   } catch (err) {
     res.status(500).json({
@@ -73,9 +57,25 @@ const updateCity = async (req: Request, res: Response, next: NextFunction): Prom
   }
 };
 
-const destroyCity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateSea = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const result = await cityService.deleteCity(req.params.id);
+    const result: { status: number; message: string; data?: any } = await seaService.updateSea(req.params.id, req.body);  // Ganti ke updateSea()
+    res.status(result.status).json({
+      status: result.status === 200 ? 'OK' : 'FAIL',
+      data: result.status === 200 ? result.data : null,
+      message: result.message,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'ERROR',
+      message: (err as Error).message,
+    });
+  }
+};
+
+const destroySea = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const result = await seaService.deleteSea(req.params.id);  // Ganti ke deleteSea()
     if (result.status === 404) {
       res.status(404).json({
         status: 'FAIL',
@@ -93,9 +93,9 @@ const destroyCity = async (req: Request, res: Response, next: NextFunction): Pro
 };
 
 export default {
-  list: listCities,
-  show: showCity,
-  create: createCity,
-  update: updateCity,
-  destroy: destroyCity,
+  list: listSeas,
+  show: showSea,
+  create: createSea,
+  update: updateSea,
+  destroy: destroySea,
 };

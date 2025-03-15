@@ -9,6 +9,7 @@ interface City {
   name: string;
   lat: number;
   lon: number;
+  isInIndonesia: boolean;
   isActive: boolean;
   created_at: Date;
   updated_at: Date;

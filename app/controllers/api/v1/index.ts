@@ -4,10 +4,11 @@
  */
 
 import cityController from "./cityController";
+import seaController from "./seaController";
 
 
 export { 
-  cityController
-  
+  cityController,
+  seaController
 };
 
